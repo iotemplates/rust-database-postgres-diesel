@@ -1,0 +1,7 @@
+* Rust database Postgres
+
+
+[[../../actions/workflows/build.yml/badge.svg]]
+
+
+A simple rust application template that uses the postgres database.
