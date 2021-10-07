@@ -1,7 +1,81 @@
-* Rust database Postgres
+* Rust database Postgres with Diesel ORM
 
 
 [[../../actions/workflows/build.yml/badge.svg]]
 
 
-A simple rust application template that uses the postgres database.
+A simple rust application template that uses the postgres database with Diesel ORM.
+
+** How to use
+   
+*** Requirement
+    
+**** Check your path
+
+     You need to ensure that `${HOME}/.cargo/bin` is in your path.
+     
+**** Install the diesel binary
+
+     #+begin_src sh
+     cargo install diesel_cli --no-default-features --features postgres
+     #+end_src
+     
+**** Check the diesel installation
+
+     #+begin_src sh
+     diesel -V
+     #+end_src
+
+**** Do the initial setup
+
+     This template has pre-generated schema/migrations for persons. Additionally it provides docker compose configuration that make use of these migrations to bring up the database needed.
+     The generated stuff have been created using the steps descirbed below:
+
+***** Create the migrations for the table of your choice
+
+      In this example we used `persons` as the table name and the migration was named `create_persons`
+
+      #+begin_src sh
+      diesel migration generate create_persons
+      #+end_src
+
+      The generated migration should be found under the [[./migrations][migrations]] following the format `YYYY-MM-DD-HHMMSS-create-persons` format that [[./migrations/00000000000001_create_persons/][folder]] contains two scripts [[./migrations/00000000000001_create_persons/up.sql][up.sql]] and [[./migrations/00000000000001_create_persons/down.sql][down.sql]]
+      To make things more predictable the folder has been renamed to [[./migrations/00000000000001_create_persons/][00000000000001-create-persons]] and the [[./docker-compose.yml][docker compse configuration]] refers to it. In other words docker compose will reuse the provides migration scripts to initialize
+
+      
+***** Start the database container
+
+      Next step is to start the database container.
+      
+      #+begin_src sh
+      docker-compose up -d
+      #+end_src
+
+      
+***** Diesel Setup and initialize schema
+
+      Now that the database is up, we can:
+
+      #+begin_src sh
+      diesel setup
+      #+end_src
+
+      This assumes that the a correct url to the database is provided by [[./.env][.env]].
+      If you started the database use the provided [[./docker-compose.yml][docker compose configuration]] no additional step is required as they come pre-aligned.
+      If you decided to use the database differently, you'll need to update [[./.env][.env]].
+
+**  Run the application
+
+   
+*** Building
+
+    #+begin_src sh
+    cargo build --release
+    #+end_src
+
+*** Running
+
+    #+begin_src sh
+    /target/release/show_persons
+    #+end_src
+
