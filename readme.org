@@ -76,6 +76,7 @@ A simple rust application template that uses the postgres database with Diesel O
 *** Running
 
     #+begin_src sh
+    /target/release/add_persons
     /target/release/show_persons
     #+end_src
 

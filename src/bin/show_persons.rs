@@ -17,8 +17,6 @@ fn main() {
 
     println!("Displaying {} persons", results.len());
     for person in results {
-        println!("{}", person.first_name);
-        println!("-----------\n");
-        println!("{}", person.last_name);
+        println!("{} {}", person.first_name, person.last_name);
     }
 }

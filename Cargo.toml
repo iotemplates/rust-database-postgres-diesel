@@ -11,5 +11,9 @@ dotenv = "0.15.0"
 name = "show_persons"
 doc = false
 
+[[bin]]
+name = "add_persons"
+doc = false
+
 [lib]
 doc = false

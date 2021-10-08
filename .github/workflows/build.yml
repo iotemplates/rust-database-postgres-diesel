@@ -54,9 +54,12 @@ jobs:
           docker-compose up -d
           until [[ `docker logs db 2>&1 | grep "system is ready" | wc -l` -gt 0 ]]; do sleep 5; echo "Waiting for db." ; done
           sleep 5
+          cargo install diesel_cli --no-default-features --features postgres
+          ${HOME}/.cargo/bin/diesel setup
       - name: Integration test (run)
         run: |
-          ./target/release/rust-database-postgres
+          ./target/release/add_persons
+          if [[ `./target/release/show_persons | wc -l` -ne 3 ]]; then echo "Expected 2 entries"; exit 1; fi
       - name: Integration test (teardown)
         run: |
           docker-compose kill -f
